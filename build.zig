@@ -143,28 +143,28 @@ fn create_libusb(
         .optimize = optimize,
         .link_libc = true,
     });
-    lib.addCSourceFiles(src, &.{});
+    lib.addCSourceFiles(.{ .files = src });
 
     if (is_posix)
-        lib.addCSourceFiles(posix_platform_src, &.{});
+        lib.addCSourceFiles(.{ .files = posix_platform_src });
 
     if (target.isDarwin()) {
-        lib.addCSourceFiles(darwin_src, &.{});
+        lib.addCSourceFiles(.{ .files = darwin_src });
         lib.linkFrameworkNeeded("IOKit");
     } else if (target.isLinux()) {
-        lib.addCSourceFiles(linux_src, &.{});
+        lib.addCSourceFiles(.{ .files = linux_src });
         lib.linkSystemLibrary("libudev");
     } else if (target.isWindows()) {
-        lib.addCSourceFiles(windows_src, &.{});
-        lib.addCSourceFiles(windows_platform_src, &.{});
+        lib.addCSourceFiles(.{ .files = windows_src });
+        lib.addCSourceFiles(.{ .files = windows_platform_src });
     } else if (target.isNetBSD()) {
-        lib.addCSourceFiles(netbsd_src, &.{});
+        lib.addCSourceFiles(.{ .files = netbsd_src });
     } else if (target.isOpenBSD()) {
-        lib.addCSourceFiles(openbsd_src, &.{});
+        lib.addCSourceFiles(.{ .files = openbsd_src });
     } else if (target.getOsTag() == .haiku) {
-        lib.addCSourceFiles(haiku_src, &.{});
+        lib.addCSourceFiles(.{ .files = haiku_src });
     } else if (target.getOsTag() == .solaris) {
-        lib.addCSourceFiles(sunos_src, &.{});
+        lib.addCSourceFiles(.{ .files = sunos_src });
     } else unreachable;
 
     lib.addIncludePath(.{ .path = "libusb" });
